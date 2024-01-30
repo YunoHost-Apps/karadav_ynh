@@ -143,7 +143,7 @@ const LDAP_FIND_IS_ADMIN = "(&(|(objectclass=posixAccount))(uid=%s)(permission=c
  *
  * @var bool
  */
-const ERRORS_SHOW = true;
+const ERRORS_SHOW = false;
 
 /**
  * Send PHP errors to this email address
