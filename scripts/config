@@ -23,8 +23,7 @@ post_max_size=$(ynh_app_setting_get --app="$app" --key=post_max_size)
 set__upload_max_filesize() {
 
     # update php config
-    ynh_replace_string --match_string="[upload_max_filesize] = .*" --replace_string="[upload_max_filesize] = $upload_max_filesize" --target_file="/etc/php/$phpversion/fpm/pool.d/$app.conf"
-    ynh_store_file_checksum --file="/etc/php/$phpversion/fpm/pool.d/$app.conf"
+    ynh_add_fpm_config
 
     # save new settings
     ynh_app_setting_set --app="$app" --key=upload_max_filesize --value="$upload_max_filesize"
@@ -34,8 +33,7 @@ set__upload_max_filesize() {
 set__post_max_size() {
 
     # update php config
-    ynh_replace_string --match_string="[post_max_size] = .*" --replace_string="[post_max_size] = $post_max_size" --target_file="/etc/php/$phpversion/fpm/pool.d/$app.conf"
-    ynh_store_file_checksum --file="/etc/php/$phpversion/fpm/pool.d/$app.conf"
+    ynh_add_fpm_config
 
     # update nginx config
     ynh_replace_string --match_string="client_max_body_size .*;" --replace_string="client_max_body_size $post_max_size;" --target_file="/etc/nginx/conf.d/$domain.d/$app.conf"
