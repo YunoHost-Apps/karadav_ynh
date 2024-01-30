@@ -15,11 +15,10 @@ version = "1.0"
 name.en = "Configuration"
 name.fr = "Configuration"
 
-services = [ "__APP__" ]
+services = [ "nginx, php__PHP_VERSION__" ]
 # help = ""
 
     [main.customization]
-
     name.en = "Configuration pertaining to PHP"
     name.fr = "Configuration relative à PHP"
     # help = ""
@@ -27,13 +26,13 @@ services = [ "__APP__" ]
     optional = false
 
     [main.php.upload_max_filesize]
-    help.en = " The maximum size of an uploaded file. 'post_max_size' must be larger than this value. Docs: https://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize"
+    help.en = "The maximum size of an uploaded file. 'post_max_size' must be larger than this value. Docs: https://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize"
     ask.en = "Upload max size"
     type = "string"
-    bind = "php_admin_value[upload_max_filesize]:__INSTALL_DIR__/config.local.php"
+    bind = "upload_max_filesize:__INSTALL_DIR__/config.local.php"
 
     [main.php.post_max_size]
     ask.en = "Post max size"
     help.en = "Sets max size of post data allowed. This setting also affects file upload. To upload large files, this value must be larger than 'upload_max_filesize'. Docs: https://www.php.net/manual/en/ini.core.php#ini.post-max-size"
     type = "string"
-    bind = "php_admin_value[post_max_size]:__INSTALL_DIR__/config.local.php"
+    bind = "post_max_size:__INSTALL_DIR__/config.local.php"
