@@ -43,7 +43,7 @@ const DB_FILE = '__INSTALL_DIR__/db.sqlite';
  *
  * const WWW_URL = 'https://dav.website.example/';
  */
-const WWW_URL = 'https://__DOMAIN____PATH__';
+const WWW_URL = 'https://__DOMAIN____PATH__/';
 
 /**
  * WOPI client discovery URL
