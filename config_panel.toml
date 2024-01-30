@@ -25,7 +25,7 @@ services = [ "nginx", "php__PHP_VERSION__" ]
         help.en = "The maximum size of an uploaded file. `post_max_size` must be larger than this value. Docs: https://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize"
         help.fr = "La taille maximale d'un fichier téléversé. `post_max_size` doit être supérieur à cette valeur."
         type = "string"
-        bind = ":__INSTALL_DIR__/etc/php/__PHPVERSION__/fpm/pool.d/__APP__.conf"
+        bind = ":/etc/php/__PHPVERSION__/fpm/pool.d/__APP__.conf"
         pattern.regexp = "^[0-9]*(M|G)$"
         pattern.error = "Not an acceptable value. Must begin with a number and end with M or G."
 
@@ -34,6 +34,6 @@ services = [ "nginx", "php__PHP_VERSION__" ]
         help.en = "Sets max size of post data allowed. This setting also affects file upload. To upload large files, this value must be larger than `upload_max_filesize`. Docs: https://www.php.net/manual/en/ini.core.php#ini.post-max-size"
         help.fr = "Définit la taille maximale des données autorisée par post. Ce paramètre affecte également le téléchargement de fichiers. Pour télécharger des fichiers volumineux, cette valeur doit être supérieure à `upload_max_filesize`. Docs : https://www.php.net/manual/en/ini.core.php#ini.post-max-size"
         type = "string"
-        bind = ":__INSTALL_DIR__/etc/php/__PHPVERSION__/fpm/pool.d/__APP__.conf"
+        bind = ":/etc/php/__PHPVERSION__/fpm/pool.d/__APP__.conf"
         pattern.regexp = "^[0-9]*(M|G)$"
         pattern.error = "Not an acceptable value. Must begin with a number and end with M or G."
