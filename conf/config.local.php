@@ -62,7 +62,7 @@ const ACCESS_CONTROL_ALL = false;
  * Path to a log file (eg. _ _DIR__ . '/debug.log')
  * This will log all HTTP requests and responses received by the server
  */
-const LOG_FILE = null;
+const LOG_FILE = "/var/log/__APP__/__APP__.log";
 
 /**
  * Set to TRUE if you have X-SendFile module installed and configured
@@ -160,7 +160,7 @@ const ERRORS_EMAIL = null;
  *
  * @var string
  */
-const ERRORS_LOG = '__INSTALL_DIR__/error.log';
+const ERRORS_LOG = "/var/log/__APP__/__APP__.log";
 
 /**
  * Send errors reports to this errbit/airbrake compatible API endpoint
@@ -180,4 +180,4 @@ const ERRORS_REPORT_URL = null;
  * But if you don't allow your web server to write to this file, then please use a true
  * random bytes generator to create a ~30 bytes random key and put it in this constant :)
  */
-//const SECRET_KEY = 'verySECRETstringHEREplease';
+const SECRET_KEY = "__SECRET_KEY__";

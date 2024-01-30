@@ -7,12 +7,8 @@ Type=simple
 User=__APP__
 Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/
-
 Environment="PHP_CLI_SERVER_WORKERS=3"
-ExecStart=/usr/bin/php -S 0.0.0.0:8080 -t /var/lib/karadav/www /var/lib/karadav/www/_router.php
-
-ExecStart=__INSTALL_DIR__/script
-StandardOutput=append:/var/log/__APP__/__APP__.log
+ExecStart=/usr/bin/php -S 127.0.0.1:__PORT__ -t __INSTALL_DIR__/www __INSTALL_DIR__/www/_router.php
 StandardError=inherit
 Restart=on-failure
 
