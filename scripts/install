@@ -32,7 +32,7 @@ source /usr/share/yunohost/helpers
 # INITIALIZE AND STORE SETTINGS
 #=================================================
 
-secret_key="$(ynh_string_random)"
+secret_key="$(ynh_string_random --length=30)"
 upload_max_filesize="2G"
 post_max_size="2G"
 
