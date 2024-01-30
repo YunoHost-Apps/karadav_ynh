@@ -65,3 +65,6 @@ set__post_max_size() {
     ynh_app_setting_set --app="$app" --key=post_max_size --value="$post_max_size"
 
 }
+
+# Keep this last line
+ynh_app_config_run "$1"
