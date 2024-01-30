@@ -33,10 +33,10 @@ ynh_change_url_nginx_config
 #=================================================
 # SPECIFIC MODIFICATIONS
 #=================================================
-# ...
+# MODIFY URL IN the KARADAV CONF
 #=================================================
 
-## do any changes to files that reference specific installation domain/path, i.e. regenerate configs etc
+ynh_write_var_in_file --file="config.local.conf" --key=WWW_URL --value="$domain$path"
 
 #=================================================
 # GENERIC FINALISATION
