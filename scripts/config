@@ -12,6 +12,7 @@ source /usr/share/yunohost/helpers
 ynh_abort_if_errors
 
 # import needed settings
+phpversion=$(ynh_app_setting_get --app="$app" --key=phpversion)
 upload_max_filesize=$(ynh_app_setting_get --app="$app" --key=upload_max_filesize)
 post_max_size=$(ynh_app_setting_get --app="$app" --key=post_max_size)
 
