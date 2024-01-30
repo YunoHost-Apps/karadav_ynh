@@ -1,0 +1,46 @@
+
+## Config panel are available from webadmin > Apps > YOUR_APP > Config Panel Button
+## Those panels let user configure some params on their apps using a friendly interface,
+## and remove the need to manually edit files from the command line.
+
+## -----------------------------------------------------------------------------
+## IMPORTANT: In accordance with YunoHost's spirit, please keep things simple and 
+## do not overwhelm the admin with tons of misunderstandable or advanced settings.
+## -----------------------------------------------------------------------------
+
+version = "1.0"
+
+################################################################################
+#### ABOUT PANELS
+################################################################################
+
+
+[main]
+
+name.en = "Configuration"
+name.fr = "Configuration"
+
+services = [ "__APP__" ]
+# help = ""
+
+    [main.customization]
+
+    ## (optional) Defining a proper title for sections is not mandatory
+    ## and depends on the exact rendering you're aiming for the CLI / webadmin
+    name.en = "Configuration pertaining to PHP"
+    name.fr = "Configuration relative à PHP"
+    # help = ""
+    # services = []
+    optional = false
+
+    [main.php.upload_max_filesize]
+    help.en = " The maximum size of an uploaded file. 'post_max_size' must be larger than this value. Docs: https://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize"
+    ask.en = "Upload max size"
+    type = "string"
+    bind = "php_admin_value[upload_max_filesize]:__INSTALL_DIR__/config.local.php"
+
+    [main.php.post_max_size]
+    ask.en = "Post max size"
+    help.en = "Sets max size of post data allowed. This setting also affects file upload. To upload large files, this value must be larger than 'upload_max_filesize'. Docs: https://www.php.net/manual/en/ini.core.php#ini.post-max-size"
+    type = "string"
+    bind = "php_admin_value[post_max_size]:__INSTALL_DIR__/config.local.php"

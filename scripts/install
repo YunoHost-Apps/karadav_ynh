@@ -33,7 +33,12 @@ source /usr/share/yunohost/helpers
 #=================================================
 
 secret_key="$(ynh_string_random)"
-ynh_app_setting_set --app="$app" --key=secret-key --value="$secret_key"
+upload_max_filesize="2G"
+post_max_size="2G"
+
+ynh_app_setting_set --app="$app" --key=secret_key --value="$secret_key"
+ynh_app_setting_set --app="$app" --key=upload_max_filesize --value="$upload_max_filesize"
+ynh_app_setting_set --app="$app" --key=post_max_size --value="$post_max_size"
 
 #=================================================
 # APP "BUILD" (DEPLOYING SOURCES, VENV, COMPILING ETC)
