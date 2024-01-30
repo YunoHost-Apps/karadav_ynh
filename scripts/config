@@ -1,0 +1,60 @@
+#!/bin/bash
+
+#=================================================
+# GENERIC STARTING
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+ynh_abort_if_errors
+
+# import needed settings
+upload_max_filesize=$(ynh_app_setting_get --app="$app" --key=upload_max_filesize)
+post_max_size=$(ynh_app_setting_get --app="$app" --key=post_max_size)
+
+#=================================================
+# SPECIFIC VALIDATORS
+#=================================================
+
+# check that the users given values are acceptable
+# (starts with a number and ends with either M or G)
+
+validate__upload_max_filesize() {
+
+    [[ "$upload_max_filesize" =~ ^[0-9]*(M|G)$ ]] &&
+        echo "Not an acceptable value. Must begin with a number and end with M or G."
+    
+}
+
+validate__post_max_size() {
+
+    [[ "$post_max_size" =~ ^[0-9]*(M|G)$ ]] &&
+        echo "Not an acceptable value. Must begin with a number and end with M or G."
+    
+}
+
+#=================================================
+# SPECIFIC SETTERS
+#=================================================
+
+set__upload_max_filesize() {
+
+    # save new settings
+    ynh_app_setting_set --app="$app" --key=upload_max_filesize --value="$upload_max_filesize"
+    ynh_app_setting_set --app="$app" --key=post_max_size --value="$post_max_size"
+
+}
+
+set__post_max_size() {
+
+    # update nginx config
+    ynh_replace_string --match_string="client_max_body_size .*;" --replace_string="client_max_body_size $post_max_size;" --target_file="/etc/nginx/conf.d/$domain.d/$app.conf"
+
+    # save new settings
+    ynh_app_setting_set --app="$app" --key=upload_max_filesize --value="$upload_max_filesize"
+    ynh_app_setting_set --app="$app" --key=post_max_size --value="$post_max_size"
+
+}

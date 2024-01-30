@@ -25,11 +25,11 @@ services = [ "nginx, php__PHP_VERSION__" ]
         help.en = "The maximum size of an uploaded file. `post_max_size` must be larger than this value. Docs: https://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize"
         help.fr = "La taille maximale d'un fichier téléversé. `post_max_size` doit être supérieur à cette valeur."
         type = "string"
-        bind = "upload_max_filesize:__INSTALL_DIR__/config.local.php"
+        bind = "upload_max_filesize:__INSTALL_DIR__/etc/php/$phpversion/fpm/pool.d/$app.conf"
 
         [main.php.post_max_size]
         ask = "Post max size"
         help.en = "Sets max size of post data allowed. This setting also affects file upload. To upload large files, this value must be larger than `upload_max_filesize`. Docs: https://www.php.net/manual/en/ini.core.php#ini.post-max-size"
         help.fr = "Définit la taille maximale des données autorisée par post. Ce paramètre affecte également le téléchargement de fichiers. Pour télécharger des fichiers volumineux, cette valeur doit être supérieure à `upload_max_filesize`. Docs : https://www.php.net/manual/en/ini.core.php#ini.post-max-size"
         type = "string"
-        bind = "post_max_size:__INSTALL_DIR__/config.local.php"
+        bind = "post_max_size:__INSTALL_DIR__/etc/php/$phpversion/fpm/pool.d/$app.conf"
