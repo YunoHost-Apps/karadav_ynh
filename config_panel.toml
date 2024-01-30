@@ -13,7 +13,7 @@ version = "1.0"
 [main]
 name.en = "Configuration"
 name.fr = "Configuration"
-services = [ "nginx, php__PHP_VERSION__" ]
+services = [ "nginx", "php__PHP_VERSION__" ]
 
     [main.php]
     name.en = "Configuration pertaining to PHP"
