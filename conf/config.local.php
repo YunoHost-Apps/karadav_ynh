@@ -59,7 +59,7 @@ const WOPI_DISCOVERY_URL = null;
 const ACCESS_CONTROL_ALL = false;
 
 /**
- * Path to a log file (eg. __DIR__ . '/debug.log')
+ * Path to a log file (eg. _ _DIR__ . '/debug.log')
  * This will log all HTTP requests and responses received by the server
  */
 const LOG_FILE = null;
@@ -160,7 +160,7 @@ const ERRORS_EMAIL = null;
  *
  * @var string
  */
-const ERRORS_LOG = __DIR__ . '/data/error.log';
+const ERRORS_LOG = '__INSTALL_DIR__/error.log';
 
 /**
  * Send errors reports to this errbit/airbrake compatible API endpoint
