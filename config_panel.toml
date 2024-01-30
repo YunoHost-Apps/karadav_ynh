@@ -10,11 +10,6 @@
 
 version = "1.0"
 
-################################################################################
-#### ABOUT PANELS
-################################################################################
-
-
 [main]
 
 name.en = "Configuration"
@@ -25,8 +20,6 @@ services = [ "__APP__" ]
 
     [main.customization]
 
-    ## (optional) Defining a proper title for sections is not mandatory
-    ## and depends on the exact rendering you're aiming for the CLI / webadmin
     name.en = "Configuration pertaining to PHP"
     name.fr = "Configuration relative à PHP"
     # help = ""
