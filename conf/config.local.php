@@ -27,13 +27,13 @@ const DEFAULT_TRASHBIN_DELAY = 60*60*24*30; // 30 days
  * Users file storage path
  * %s is replaced by the login name of the user
  */
-const STORAGE_PATH = __DIR__ . '__DATA_DIR__/%s';
+const STORAGE_PATH = '__DATA_DIR__/%s';
 
 /**
  * SQLite3 database file
  * This is where the users, app sessions and stuff will be stored
  */
-const DB_FILE = __DIR__ . '__INSTALL_DIR__/db.sqlite';
+const DB_FILE = '__INSTALL_DIR__/db.sqlite';
 
 /**
  * WWW_URL is the complete URL of the root of this server
