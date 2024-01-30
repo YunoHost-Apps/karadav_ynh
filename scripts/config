@@ -16,27 +16,6 @@ upload_max_filesize=$(ynh_app_setting_get --app="$app" --key=upload_max_filesize
 post_max_size=$(ynh_app_setting_get --app="$app" --key=post_max_size)
 
 #=================================================
-# SPECIFIC VALIDATORS
-#=================================================
-
-# check that the users given values are acceptable
-# (starts with a number and ends with either M or G)
-
-validate__upload_max_filesize() {
-
-    [[ "$upload_max_filesize" =~ ^[0-9]*(M|G)$ ]] &&
-        echo "Not an acceptable value. Must begin with a number and end with M or G."
-    
-}
-
-validate__post_max_size() {
-
-    [[ "$post_max_size" =~ ^[0-9]*(M|G)$ ]] &&
-        echo "Not an acceptable value. Must begin with a number and end with M or G."
-    
-}
-
-#=================================================
 # SPECIFIC SETTERS
 #=================================================
 
