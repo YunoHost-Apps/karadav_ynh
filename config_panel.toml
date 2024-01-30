@@ -18,6 +18,8 @@ services = [ "nginx", "php__PHP_VERSION__" ]
     [main.php]
     name.en = "Configuration pertaining to PHP"
     name.fr = "Configuration relative à PHP"
+    help.en = "Requires a megabyte (ending in M) or gigabyte (ending in G) value, e.g. '500M' for 500 megabytes or '1G' for 1 gigabyte."
+    help.fr = "Nécessite une valeur en mégaoctets (se terminant par M) ou en gigaoctets (se terminant par G), par exemple '500M' pour 500 mégaoctets ou '1G' pour 1 gigaoctet."
     optional = false
 
         [main.php.upload_max_filesize]
