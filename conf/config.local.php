@@ -4,11 +4,13 @@ namespace KaraDAV;
 
 /**
  * This is the configuration file for KaraDAV
- * *DO NOT* edit the config.dist.php, copy it to config.local.php
- * and edit it to suit your needs. Changing config.dist.php won't do
- * anything.
- *
- * If config.local.php does not exist, default values will be used.
+ * 
+ * ⚠️ IMPORTANT WARNING: do NOT edit this config file by hand,
+ * else your modifications will be ERASED at each update of the KaraDAV package!
+ * Instead, use the config panel in your web admin interface:
+ * Applications ➡️ KaraDAV ➡️ Config panel ➡️ do your config edit ➡️ Save
+ * Most of the relevant settings are available in the config panel, if you're
+ * missing one, open an issue: https://github.com/YunoHost-Apps/karadav_ynh/issues
  */
 
 /**
