@@ -36,8 +36,9 @@ ynh_change_url_nginx_config
 # MODIFY URL IN the KARADAV CONF
 #=================================================
 
-ynh_write_var_in_file --file="config.local.conf" --key=WWW_URL --value="$domain$path"
-ynh_store_file_checksum --file="config.local.conf"
+path_without_trailing_slash=${path%/}
+ynh_write_var_in_file --file="$install_dir/config.local.conf" --key=WWW_URL --value="$domain$path_without_trailing_slash/"
+ynh_store_file_checksum --file="$install_dir/config.local.conf"
 
 #=================================================
 # GENERIC FINALISATION
