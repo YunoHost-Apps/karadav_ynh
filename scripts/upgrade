@@ -19,13 +19,6 @@ source /usr/share/yunohost/helpers
 # nothing for now
 
 #=================================================
-# STOP SYSTEMD SERVICE
-#=================================================
-ynh_script_progression --message="Stopping a systemd service..." --weight=1
-
-ynh_systemd_action --service_name="$app" --action="stop" --log_path="/var/log/$app/$app.log"
-
-#=================================================
 # "REBUILD" THE APP (DEPLOY NEW SOURCES)
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -47,8 +40,6 @@ ynh_add_fpm_config
 
 ynh_add_nginx_config
 
-ynh_add_systemd_config
-
 yunohost service add "$app" --description="KaraDAV, WebDAV server" --log="/var/log/$app/$app.log"
 
 ynh_use_logrotate --non-append
@@ -66,13 +57,6 @@ ynh_add_config --template="config.local.php" --destination="$install_dir/config.
 
 chmod 400 "$install_dir/config.local.php"
 chown "$app:$app" "$install_dir/config.local.php"
-
-#=================================================
-# START SYSTEMD SERVICE
-#=================================================
-ynh_script_progression --message="Starting a systemd service..." --weight=1
-
-ynh_systemd_action --service_name="$app" --action="start" --log_path="/var/log/$app/$app.log"
 
 #=================================================
 # END OF SCRIPT
