@@ -114,24 +114,68 @@ const AUTH_CALLBACK = null;
  * LDAP server configuration
  *
  * To use a LDAP server for login, fill those details.
+ * All LDAP constants MUST be filled, if any constant is NULL, then LDAP support is disabled.
+ *
  *
  * All users logging in will be created locally and have the default quota.
+ * All users signing in with success, who don't have an existing account,
+ * will be created locally and have the default quota.
+ *
+ * Example strings are taken from https://yunohost.org/en/packaging_sso_ldap_integration#ldap-integration
  */
-const LDAP_URI = "127.0.0.1";
-//const LDAP_URI = '127.0.0.1';
+const LDAP_HOST = "127.0.0.1";
+//const LDAP_HOST = '127.0.0.1';
 
+/**
+ * LDAP server port
+ * @var integer
+ */
+const LDAP_PORT = 389;
+
+/**
+ * LDAP security
+ * Set to TRUE if using LDAPS
+ * @var bool
+ */
+const LDAP_SECURE = false;
+
+/**
+ * LDAP user DN
+ * This is used in bind. Use %s for user login string.
+ * @var string
+ */
 const LDAP_LOGIN = "uid=%s,ou=users,dc=yunohost,dc=org";
 //const LDAP_LOGIN = 'uid=%s,ou=users,dc=yunohost,dc=org';
 
+/**
+ * LDAP base DN
+ * @var string
+ */
 const LDAP_BASE = "dc=yunohost,dc=org";
 //const LDAP_BASE = 'dc=yunohost,dc=org';
 
-const LDAP_DISPLAY_NAME = "displayname";
+/**
+ * LDAP display name attribute
+ * @var string
+ */
+const LDAP_DISPLAY_NAME = "displayName";
 //const LDAP_DISPLAY_NAME = 'displayname';
 
+/**
+ * LDAP Search filter
+ * This is used to find out if a logged-in user has the permission to access this application.
+ * Use %s for the user login.
+ * @var string
+ */
 const LDAP_FIND_USER = "(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=__APP__.main,ou=permission,dc=yunohost,dc=org))";
 //const LDAP_FIND_USER = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=karadav.main,ou=permission,dc=yunohost,dc=org))';
 
+/**
+ * LDAP admin filter
+ * This is used to find out if user can manage other users account and change quota etc.
+ * Use %s for the user login
+ * @var string
+ */
 const LDAP_FIND_IS_ADMIN = "(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=__APP__.admin.main,ou=permission,dc=yunohost,dc=org))";
 //const LDAP_FIND_IS_ADMIN = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=karadav.admin.main,ou=permission,dc=yunohost,dc=org))';
 
@@ -167,7 +211,7 @@ const ERRORS_LOG = "/var/log/__APP__/__APP__.log";
 /**
  * Send errors reports to this errbit/airbrake compatible API endpoint
  * Default: NULL
- * Example: 'https://user:password@
+ * Example: 'https://user:password@domain.tld/errors'
  *
  * @var string|null
  * @see https://errbit.com/images/error_summary.png
