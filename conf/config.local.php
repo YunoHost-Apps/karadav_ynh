@@ -120,16 +120,16 @@ const AUTH_CALLBACK = null;
 const LDAP_HOST = "127.0.0.1";
 //const LDAP_URI = '127.0.0.1';
 
-const LDAP_LOGIN = "ou=users,dc=yunohost,dc=org";
+const LDAP_LOGIN = "uid=%s,ou=users,dc=yunohost,dc=org";
 //const LDAP_LOGIN = 'uid=%s,ou=users,dc=yunohost,dc=org';
 
 const LDAP_BASE = "dc=yunohost,dc=org";
 //const LDAP_BASE = 'dc=yunohost,dc=org';
 
-const LDAP_DISPLAY_NAME = "uid";
+const LDAP_DISPLAY_NAME = "displayname";
 //const LDAP_DISPLAY_NAME = 'displayname';
 
-const LDAP_FIND_USER = "(&(|(objectclass=posixAccount))(uid=%uid)(permission=cn=__APP__.main,ou=permission,dc=yunohost,dc=org))";
+const LDAP_FIND_USER = "(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=__APP__.main,ou=permission,dc=yunohost,dc=org))";
 //const LDAP_FIND_USER = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=karadav.main,ou=permission,dc=yunohost,dc=org))';
 
 const LDAP_FIND_IS_ADMIN = "(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=__APP__.admin.main,ou=permission,dc=yunohost,dc=org))";
