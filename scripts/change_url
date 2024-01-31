@@ -27,7 +27,6 @@ ynh_systemd_action --service_name="$app" --action="stop" --log_path="/var/log/$a
 #=================================================
 ynh_script_progression --message="Updating NGINX web server configuration..." --weight=1
 
-# this will most likely adjust NGINX config correctly
 ynh_change_url_nginx_config
 
 #=================================================
@@ -35,6 +34,7 @@ ynh_change_url_nginx_config
 #=================================================
 # MODIFY URL IN the KARADAV CONF
 #=================================================
+ynh_script_progression --message="Updating KaraDAV configuration..." --weight=1
 
 path_without_trailing_slash=${path%/}
 ynh_write_var_in_file --file="$install_dir/config.local.conf" --key=WWW_URL --value="$domain$path_without_trailing_slash/"
