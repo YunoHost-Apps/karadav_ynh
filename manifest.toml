@@ -4,8 +4,8 @@ packaging_format = 2
 
 id = "karadav"
 name = "KaraDAV"
-description.en = "A very lightweight DAV server compatible with ownCloud and NextCloud clients"
-description.fr = "Un server DAV très léger compatible avec les applications ownCloud et NextCloud"
+description.en = "A very lightweight WebDAV server compatible with ownCloud and NextCloud clients"
+description.fr = "Un server WebDAV très léger compatible avec les applications ownCloud et NextCloud"
 
 version = "0.4.4~ynh1"
 
