@@ -25,11 +25,7 @@ yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = true
 ldap = true
-
-# FIXME: replace with true, false, or "not_relevant".
-# Not to confuse with the "ldap" key: the "sso" key corresponds to wether or not a user is *automatically logged-in*
-# on the app when logged-in on the YunoHost portal.
-sso = "?"
+sso = false
 
 disk = "1M"
 ram.build = "50M"
@@ -41,11 +37,7 @@ ram.runtime = "50M"
 
     [install.path]
     type = "path"
-    default = "/dav"
-
-    [install.init_main_permission]
-    type = "group"
-    default = "visitors"
+    default = "/webdav"
 
 [resources]
     [resources.sources]
@@ -61,8 +53,11 @@ ram.runtime = "50M"
 
 [resources.data_dir]
 
+# the app doesn't make sense at all it its not public
 [resources.permissions]
 main.url = "/"
+main.allowed = "visitors"
+main.protected = true
 
 [resources.apt]
 packages = "php8.2-sqlite3, php8.2-simplexml"
