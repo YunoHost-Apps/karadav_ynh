@@ -28,7 +28,7 @@ Vous pouvez l'installer facilement en utilisant [my_webapp_ynh](https://apps.yun
 - [les apps iOS NextCloud et ownCloud ne fonctionnent pas, les autres apps WebDAV devraient fonctionner](https://github.com/kd2org/karadav/issues/22) (bug upstream)
 
 
-**Version incluse :** 0.4.4~ynh1
+**Version incluse :** 0.4.6~ynh1
 
 ## Captures d’écran
 
