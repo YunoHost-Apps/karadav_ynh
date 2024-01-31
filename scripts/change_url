@@ -29,7 +29,8 @@ ynh_change_url_nginx_config
 #=================================================
 ynh_script_progression --message="Updating KaraDAV configuration..." --weight=1
 
-ynh_write_var_in_file --file="$install_dir/config.local.php" --key=WWW_URL --value="$domain$path/"
+# using 'ynh_replace_string' because 'ynh_write_var_in_file' doesn't work
+ynh_replace_string --match_string="const WWW_URL = 'https://.*/';" --replace_string="const WWW_URL = 'https://$domain$path/';" --target_file="$install_dir/config.local.php"
 ynh_store_file_checksum --file="$install_dir/config.local.php"
 
 #=================================================
