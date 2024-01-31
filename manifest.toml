@@ -53,7 +53,7 @@ ram.runtime = "50M"
 
 [resources.data_dir]
 
-# the app doesn't make sense at all it its not public
+# the app doesn't make sense at all if its not public
 [resources.permissions]
 main.url = "/"
 main.allowed = "visitors"
