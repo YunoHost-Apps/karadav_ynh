@@ -64,7 +64,5 @@ ram.runtime = "50M"
 [resources.permissions]
 main.url = "/"
 
-[resources.ports]
-
 [resources.apt]
 packages = "php8.2-sqlite3, php8.2-simplexml"
