@@ -60,4 +60,4 @@ main.allowed = "visitors"
 main.protected = true
 
 [resources.apt]
-packages = "php8.2-sqlite3, php8.2-simplexml, php8.2-ldap"
+packages = "php8.1-sqlite3, php8.1-simplexml, php8.1-ldap"
