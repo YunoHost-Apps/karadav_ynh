@@ -37,3 +37,18 @@ services = [ "nginx", "php__PHP_VERSION__-fpm" ]
         type = "string"
         pattern.regexp = "^[0-9]*(M|G)$"
         pattern.error = "Not an acceptable value. Must begin with a number and end with M or G."
+
+[main.wopi_url]
+name.en = "Configuration pertaining to WOPI protocol"
+name.fr = "Configuration relative au protocole WOPI"
+help.en = ""
+help.fr = ""
+optional = true
+
+    [main.wopi_url.wopi_url]
+    ask = "WOPI client discovery URL"
+    help.en = "eg. http://onlyoffice.domain.tld/hosting/discovery for OnlyOffice. Leave empty if not used."
+    help.fr = "ex. http://onlyoffice.domain.tld/hosting/discovery pour OnlyOffice. Laisser vide si inutilisé."
+    type = "string"
+    pattern.regexp = "(^(http://|https://).*|^$)"
+    pattern.error = "Must be either empty or an URL (starting with 'http://' or 'https://')."

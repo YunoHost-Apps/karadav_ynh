@@ -50,7 +50,7 @@ const WWW_URL = 'https://__DOMAIN____PATH__/';
  * eg. http://onlyoffice.domain.tld/hosting/discovery for OnlyOffice
  * If set to NULL, WOPI support is disabled
  */
-const WOPI_DISCOVERY_URL = null;
+const WOPI_DISCOVERY_URL = __WOPI_URL__;
 
 /**
  * Set this to TRUE if you want 'Access-Control-Allow-Origin' header to be set to '*'

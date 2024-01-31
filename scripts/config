@@ -30,6 +30,16 @@ get__post_max_size() {
     ynh_read_var_in_file --file="/etc/php/$phpversion/fpm/pool.d/$app.conf" --key=post_max_size
 }
 
+get__wopi_url() {
+    local get_wopi_url
+    get_wopi_url=$(ynh_read_var_in_file --file="$install_dir/config.local.php" --key=WOPI_DISCOVERY_URL)
+    if [[ $get_wopi_url == "null" ]]; then
+        echo ""
+    else
+        echo "$get_wopi_url"
+    fi
+}
+
 #=================================================
 # SPECIFIC SETTERS
 #=================================================
@@ -39,7 +49,7 @@ set__upload_max_filesize() {
     # update php config
     ynh_add_fpm_config
 
-    # save new settings
+    # save updated setting
     ynh_app_setting_set --app="$app" --key=upload_max_filesize --value="$upload_max_filesize"
 
 }
@@ -53,8 +63,24 @@ set__post_max_size() {
     ynh_replace_string --match_string="client_max_body_size .*;" --replace_string="client_max_body_size $post_max_size;" --target_file="/etc/nginx/conf.d/$domain.d/$app.conf"
     ynh_store_file_checksum --file="/etc/nginx/conf.d/$domain.d/$app.conf"
 
-    # save new settings
+    # save updated setting
     ynh_app_setting_set --app="$app" --key=post_max_size --value="$post_max_size"
+
+}
+
+set__wopi_url() {
+
+    # the variable must be 'null' if the setting is not used
+    if [[ $wopi_url == "" ]]; then
+        wopi_url="null"
+    fi
+
+    # update karadav config
+    ynh_write_var_in_file --file="$install_dir/config.local.php" --key=WOPI_DISCOVERY_URL --value="$wopi_url"
+    ynh_store_file_checksum --file="$install_dir/config.local.php"
+
+    # save updated setting
+    ynh_app_setting_set --app="$app" --key=wopi_url --value="$wopi_url"
 
 }
 

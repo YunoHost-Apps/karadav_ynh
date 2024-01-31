@@ -16,10 +16,12 @@ source /usr/share/yunohost/helpers
 secret_key="$(ynh_string_random --length=30)"
 upload_max_filesize="1G"
 post_max_size="1G"
+wopi_url="null"
 
 ynh_app_setting_set --app="$app" --key=secret_key --value="$secret_key"
 ynh_app_setting_set --app="$app" --key=upload_max_filesize --value="$upload_max_filesize"
 ynh_app_setting_set --app="$app" --key=post_max_size --value="$post_max_size"
+ynh_app_setting_set --app="$app" --key=wopi_url --value="$wopi_url"
 
 #=================================================
 # APP "BUILD" (DEPLOYING SOURCES)
