@@ -17,6 +17,20 @@ upload_max_filesize=$(ynh_app_setting_get --app="$app" --key=upload_max_filesize
 post_max_size=$(ynh_app_setting_get --app="$app" --key=post_max_size)
 
 #=================================================
+# SPECIFIC GETTERS
+#=================================================
+
+# because __PHPVERSION__ is not hydrated in a config panel bind :/
+
+get__upload_max_filesize() {
+    ynh_read_var_in_file --file="/etc/php/$phpversion/fpm/pool.d/$app.conf" --key=upload_max_filesize
+}
+
+get__post_max_size() {
+    ynh_read_var_in_file --file="/etc/php/$phpversion/fpm/pool.d/$app.conf" --key=post_max_size
+}
+
+#=================================================
 # SPECIFIC SETTERS
 #=================================================
 
