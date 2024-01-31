@@ -14,8 +14,8 @@ source /usr/share/yunohost/helpers
 #=================================================
 
 secret_key="$(ynh_string_random --length=30)"
-upload_max_filesize="2G"
-post_max_size="2G"
+upload_max_filesize="1G"
+post_max_size="1G"
 
 ynh_app_setting_set --app="$app" --key=secret_key --value="$secret_key"
 ynh_app_setting_set --app="$app" --key=upload_max_filesize --value="$upload_max_filesize"
