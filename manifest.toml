@@ -56,7 +56,7 @@ ram.runtime = "50M"
 # the app doesn't make sense at all if its not public
 [resources.permissions]
 main.url = "/"
-main.allowed = "visitors"
+main.allowed = [ "visitors", "all_users" ]
 main.protected = true
 
 [resources.apt]
