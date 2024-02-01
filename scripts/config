@@ -1,12 +1,4 @@
 #!/bin/bash
-# In simple cases, you don't need a config script.
-
-# With a simple config_panel.toml, you can write in the app settings, in the
-# upstream config file or replace complete files (logo ...) and restart services.
-
-# The config scripts allows you to go further, to handle specific cases
-# (validation of several interdependent fields, specific getter/setter for a value,
-# display dynamic informations or choices, pre-loading of config type .cube... ).
 
 #=================================================
 # GENERIC STARTING
@@ -14,88 +6,83 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
+source _common.sh
 source /usr/share/yunohost/helpers
 
 ynh_abort_if_errors
 
+# import needed settings
+phpversion=$(ynh_app_setting_get --app="$app" --key=phpversion)
+upload_max_filesize=$(ynh_app_setting_get --app="$app" --key=upload_max_filesize)
+post_max_size=$(ynh_app_setting_get --app="$app" --key=post_max_size)
+
 #=================================================
-# RETRIEVE ARGUMENTS
+# SPECIFIC GETTERS
 #=================================================
 
-install_dir=$(ynh_app_setting_get --app="$app" --key=install_dir)
+# because __PHPVERSION__ is not hydrated in a config panel bind :/
 
-#=================================================
-# SPECIFIC GETTERS FOR TOML SHORT KEY
-#=================================================
+get__upload_max_filesize() {
+    ynh_read_var_in_file --file="/etc/php/$phpversion/fpm/pool.d/$app.conf" --key=upload_max_filesize
+}
 
-get__amount() {
-    # Here we can imagine to have an API call to stripe to know the amount of donation during a month
-    local amount=200
+get__post_max_size() {
+    ynh_read_var_in_file --file="/etc/php/$phpversion/fpm/pool.d/$app.conf" --key=post_max_size
+}
 
-    # It's possible to change some properties of the question by overriding it:
-    if [ "$amount" -gt 100 ]; then
-    cat << EOF
-style: success
-value: $amount
-ask:
-  en: A lot of donation this month: **$amount €**
-EOF
+get__wopi_url() {
+    local get_wopi_url
+    get_wopi_url=$(ynh_read_var_in_file --file="$install_dir/config.local.php" --key=WOPI_DISCOVERY_URL)
+    if [[ $get_wopi_url == "null" ]]; then
+        echo ""
     else
-    cat << EOF
-style: danger
-value: $amount
-ask:
-  en: Not so much donation this month: $amount €
-EOF
+        echo "$get_wopi_url"
     fi
 }
 
-get__prices() {
-    local prices
-    prices="$(grep "DONATION\['" "$install_dir/settings.py" | sed -r "s@^DONATION\['([^']*)'\]\['([^']*)'\] = '([^']*)'@\1/\2/\3@g" | sed -z 's/\n/,/g;s/,$/\n/')"
-    if [ "$prices" == "," ]; then
-        # Return YNH_NULL if you prefer to not return a value at all.
-        echo YNH_NULL
-    else
-        echo "$prices"
+#=================================================
+# SPECIFIC SETTERS
+#=================================================
+
+set__upload_max_filesize() {
+
+    # update php config
+    ynh_add_fpm_config
+
+    # save updated setting
+    ynh_app_setting_set --app="$app" --key=upload_max_filesize --value="$upload_max_filesize"
+
+}
+
+set__post_max_size() {
+
+    # update php config
+    ynh_add_fpm_config
+
+    # update nginx config
+    ynh_replace_string --match_string="client_max_body_size .*;" --replace_string="client_max_body_size $post_max_size;" --target_file="/etc/nginx/conf.d/$domain.d/$app.conf"
+    ynh_store_file_checksum --file="/etc/nginx/conf.d/$domain.d/$app.conf"
+
+    # save updated setting
+    ynh_app_setting_set --app="$app" --key=post_max_size --value="$post_max_size"
+
+}
+
+set__wopi_url() {
+
+    # the variable must be 'null' if the setting is not used
+    if [[ $wopi_url == "" ]]; then
+        wopi_url="null"
     fi
+
+    # update karadav config
+    ynh_write_var_in_file --file="$install_dir/config.local.php" --key=WOPI_DISCOVERY_URL --value="$wopi_url"
+    ynh_store_file_checksum --file="$install_dir/config.local.php"
+
+    # save updated setting
+    ynh_app_setting_set --app="$app" --key=wopi_url --value="$wopi_url"
+
 }
 
-
-#=================================================
-# SPECIFIC VALIDATORS FOR TOML SHORT KEYS
-#=================================================
-validate__publishable_key() {
-
-    # We can imagine here we test if the key is really a publishable key
-    (is_secret_key "$publishable_key") &&
-        echo 'This key seems to be a secret key'
-}
-
-#=================================================
-# SPECIFIC SETTERS FOR TOML SHORT KEYS
-#=================================================
-set__prices() {
-
-    #---------------------------------------------
-    # IMPORTANT: setters are triggered only if a change is detected
-    #---------------------------------------------
-    for price in $(echo "$prices" | sed "s/,/ /"); do
-        frequency=$(echo "$price" | cut -d/ -f1)
-        currency=$(echo "$price" | cut -d/ -f2)
-        price_id=$(echo "$price" | cut -d/ -f3)
-        sed "d/DONATION\['$frequency'\]\['$currency'\]" "$install_dir/settings.py"
-
-        echo "DONATION['$frequency']['$currency'] = '$price_id'" >> "$install_dir/settings.py"
-    done
-
-    #---------------------------------------------
-    # IMPORTANT: to be able to upgrade properly, you have to save the value in settings too
-    #---------------------------------------------
-    ynh_app_setting_set --app="$app" --key=prices --value="$prices"
-}
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
+# Keep this last line
 ynh_app_config_run "$1"
