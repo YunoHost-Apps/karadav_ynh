@@ -228,4 +228,4 @@ const ERRORS_REPORT_URL = null;
  * But if you don't allow your web server to write to this file, then please use a true
  * random bytes generator to create a ~30 bytes random key and put it in this constant :)
  */
-//const SECRET_KEY = 'verySECRETstringHEREplease';
+const SECRET_KEY = '__SECRET_KEY__';
