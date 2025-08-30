@@ -63,4 +63,4 @@ ram.runtime = "50M"
     main.url = "/"
 
     [resources.apt]
-    packages = "php8.4-sqlite3, php8.4-simplexml"
+    packages = "php8.4-sqlite3, php8.4-simplexml, php8.4-imagick"
