@@ -4,13 +4,11 @@ namespace KaraDAV;
 
 /**
  * This is the configuration file for KaraDAV
- * 
- * ⚠️ IMPORTANT WARNING: do NOT edit this config file by hand,
- * else your modifications will be ERASED at each update of the KaraDAV package!
- * Instead, use the config panel in your web admin interface:
- * Applications ➡️ KaraDAV ➡️ Config panel ➡️ do your config edit ➡️ Save
- * Most of the relevant settings are available in the config panel, if you're
- * missing one, open an issue: https://github.com/YunoHost-Apps/karadav_ynh/issues
+ * *DO NOT* edit the config.dist.php, copy it to config.local.php
+ * and edit it to suit your needs. Changing config.dist.php won't do
+ * anything.
+ *
+ * If config.local.php does not exist, default values will be used.
  */
 
 /**
@@ -32,10 +30,33 @@ const DEFAULT_TRASHBIN_DELAY = 60*60*24*30; // 30 days
 const STORAGE_PATH = '__DATA_DIR__/%s';
 
 /**
+ * Path to a directory containing the thumbnails of images
+ *
+ * Set to NULL to disable thumbnails completely.
+ */
+const THUMBNAIL_CACHE_PATH = __DIR__ . '__DATA_DIR__/.thumbnails';
+
+/**
  * SQLite3 database file
  * This is where the users, app sessions and stuff will be stored
  */
-const DB_FILE = '__INSTALL_DIR__/db.sqlite';
+const DB_FILE = __DIR__ . '__DATA_DIR__/db.sqlite';
+
+/**
+ * SQLite3 journaling mode
+ * Default: TRUNCATE (slower)
+ * Recommended: WAL (faster, but read below)
+ *
+ * If your database file is on a local disk, you will get better performance by using
+ * 'WAL' journaling instead. But it is not enabled by default as it may
+ * lead to database corruption on some network storage (eg. old NFS).
+ *
+ * @see https://www.sqlite.org/pragma.html#pragma_journal_mode
+ * @see https://www.sqlite.org/wal.html
+ * @see https://stackoverflow.com/questions/52378361/which-nfs-implementation-is-safe-for-sqlite-database-accessed-by-multiple-proces
+
+ */
+//const DB_JOURNAL_MODE = 'WAL';
 
 /**
  * WWW_URL is the complete URL of the root of this server
@@ -45,14 +66,14 @@ const DB_FILE = '__INSTALL_DIR__/db.sqlite';
  *
  * const WWW_URL = 'https://dav.website.example/';
  */
-const WWW_URL = 'https://__DOMAIN____PATH__/';
+#const WWW_URL = 'http://karadav.localhost/';
 
 /**
  * WOPI client discovery URL
  * eg. http://onlyoffice.domain.tld/hosting/discovery for OnlyOffice
  * If set to NULL, WOPI support is disabled
  */
-const WOPI_DISCOVERY_URL = __WOPI_URL__;
+const WOPI_DISCOVERY_URL = null;
 
 /**
  * Set this to TRUE if you want 'Access-Control-Allow-Origin' header to be set to '*'
@@ -61,33 +82,16 @@ const WOPI_DISCOVERY_URL = __WOPI_URL__;
 const ACCESS_CONTROL_ALL = false;
 
 /**
- * Path to a log file (eg. _ _DIR__ . '/debug.log')
+ * Path to a log file (eg. __DIR__ . '/debug.log')
  * This will log all HTTP requests and responses received by the server
  */
-const LOG_FILE = "/var/log/__APP__/__APP__.log";
+const LOG_FILE = null;
 
 /**
  * Set to TRUE if you have X-SendFile module installed and configured
  * see https://tn123.org/mod_xsendfile/
  */
 const ENABLE_XSENDFILE = false;
-
-/**
- * Set to TRUE if you have a slow filesystem (eg. NFS/BindFS)
- *
- * This will disable directory sizes and directory last modification date
- * (all directories will appear as 0-bytes, and the modification date might
- * not be accurate). Not a huge impact, but it can appear weird to the user.
- *
- * Details: to find out the size taken by a directory, we must do the sum
- * of all files and sub-directories, which might be slow if you have lots
- * of files. Same for directory modification date, we need to find out the
- * last modification of each file in that directory.
- *
- * Note that this will not disable slow operations used for quotas, as it
- * would effectively disable quotas. You must disable each user quota.
- */
-const DISABLE_SLOW_OPERATIONS = false;
 
 /**
  * External authentication callback
@@ -116,14 +120,12 @@ const AUTH_CALLBACK = null;
  * To use a LDAP server for login, fill those details.
  * All LDAP constants MUST be filled, if any constant is NULL, then LDAP support is disabled.
  *
- *
- * All users logging in will be created locally and have the default quota.
  * All users signing in with success, who don't have an existing account,
  * will be created locally and have the default quota.
  *
  * Example strings are taken from https://yunohost.org/en/packaging_sso_ldap_integration#ldap-integration
  */
-const LDAP_HOST = "127.0.0.1";
+const LDAP_HOST = null;
 //const LDAP_HOST = '127.0.0.1';
 
 /**
@@ -144,21 +146,21 @@ const LDAP_SECURE = false;
  * This is used in bind. Use %s for user login string.
  * @var string
  */
-const LDAP_LOGIN = "uid=%s,ou=users,dc=yunohost,dc=org";
+const LDAP_LOGIN = null;
 //const LDAP_LOGIN = 'uid=%s,ou=users,dc=yunohost,dc=org';
 
 /**
  * LDAP base DN
  * @var string
  */
-const LDAP_BASE = "dc=yunohost,dc=org";
+const LDAP_BASE = null;
 //const LDAP_BASE = 'dc=yunohost,dc=org';
 
 /**
  * LDAP display name attribute
  * @var string
  */
-const LDAP_DISPLAY_NAME = "displayName";
+const LDAP_DISPLAY_NAME = null;
 //const LDAP_DISPLAY_NAME = 'displayname';
 
 /**
@@ -167,7 +169,7 @@ const LDAP_DISPLAY_NAME = "displayName";
  * Use %s for the user login.
  * @var string
  */
-const LDAP_FIND_USER = "(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=__APP__.main,ou=permission,dc=yunohost,dc=org))";
+const LDAP_FIND_USER = null;
 //const LDAP_FIND_USER = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=karadav.main,ou=permission,dc=yunohost,dc=org))';
 
 /**
@@ -176,7 +178,7 @@ const LDAP_FIND_USER = "(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=__
  * Use %s for the user login
  * @var string
  */
-const LDAP_FIND_IS_ADMIN = "(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=__APP__.admin.main,ou=permission,dc=yunohost,dc=org))";
+const LDAP_FIND_IS_ADMIN = null;
 //const LDAP_FIND_IS_ADMIN = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=karadav.admin.main,ou=permission,dc=yunohost,dc=org))';
 
 /**
@@ -189,7 +191,7 @@ const LDAP_FIND_IS_ADMIN = "(&(|(objectclass=posixAccount))(uid=%s)(permission=c
  *
  * @var bool
  */
-const ERRORS_SHOW = false;
+const ERRORS_SHOW = true;
 
 /**
  * Send PHP errors to this email address
@@ -206,7 +208,7 @@ const ERRORS_EMAIL = null;
  *
  * @var string
  */
-const ERRORS_LOG = "/var/log/__APP__/__APP__.log";
+const ERRORS_LOG = '/var/log/__APP__/__APP__.log';
 
 /**
  * Send errors reports to this errbit/airbrake compatible API endpoint
@@ -226,4 +228,4 @@ const ERRORS_REPORT_URL = null;
  * But if you don't allow your web server to write to this file, then please use a true
  * random bytes generator to create a ~30 bytes random key and put it in this constant :)
  */
-const SECRET_KEY = "__SECRET_KEY__";
+//const SECRET_KEY = 'verySECRETstringHEREplease';
