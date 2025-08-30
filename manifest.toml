@@ -13,8 +13,6 @@ maintainers = [ "OniriCorpe" ]
 
 [upstream]
 license = "AGPL-3.0-only"
-website = ""
-demo = ""
 admindoc = "https://github.com/kd2org/karadav/blob/main/README.md"
 userdoc = "https://github.com/kd2org/karadav/blob/main/README.md"
 code = "https://github.com/kd2org/karadav/"
@@ -54,7 +52,6 @@ ram.runtime = "50M"
     [resources.system_user]
 
     [resources.install_dir]
-    group = "www-data:r-x"
 
     [resources.data_dir]
 
