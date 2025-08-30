@@ -1,20 +1,14 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
-#=================================================
-# STANDARD UPGRADE STEPS
+ynh_app_setting_set_default --key=php_upload_max_filesize --value=__UPLOAD_MAX_FILESIZE__
+
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-#ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
+#ynh_script_progression "Ensuring downward compatibility..."
 
 # nothing for now
 
@@ -24,7 +18,7 @@ source /usr/share/yunohost/helpers
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
-ynh_script_progression --message="Upgrading source files..." --weight=1
+ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from manifest.toml
 ynh_setup_source --dest_dir="$install_dir" --keep=="db.sqlite"
@@ -32,45 +26,43 @@ ynh_setup_source --dest_dir="$install_dir" --keep=="db.sqlite"
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+ynh_script_progression "Upgrading system configurations related to $app..."
 
-ynh_add_fpm_config
+ynh_config_add_phpfpm
 
-ynh_add_nginx_config
+ynh_config_add_nginx
 
 yunohost service add "$app" --description="KaraDAV, WebDAV server" --log="/var/log/$app/$app.log"
 
-ynh_use_logrotate --non-append
+ynh_config_add_logrotate
 
-#ynh_add_fail2ban_config --logpath="/var/log/nginx/${domain}-error.log" --failregex="Regex to match into the log for a failed login"
+#ynh_config_add_fail2ban --logpath="/var/log/nginx/${domain}-error.log" --failregex="Regex to match into the log for a failed login"
 
 #=================================================
 # RECONFIGURE THE APP (UPDATE CONF, APPLY MIGRATIONS...)
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating the app configuration file..." --weight=1
+ynh_script_progression "Updating the app configuration file..."
 
-ynh_add_config --template="config.local.php" --destination="$install_dir/config.local.php"
+ynh_config_add --template="config.local.php" --destination="$install_dir/config.local.php"
 
-#=================================================
-# GENERIC FINALIZATION
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
 
 # Fix app ownerships & permissions
 # borrowed here https://github.com/YunoHost-Apps/nextcloud_ynh/blob/master/scripts/install#L223
-chown -R "$app:www-data" "$install_dir"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:www-data" "$install_dir"
 chown -R "$app:" "$data_dir"
 find "$data_dir" -type f -print0 | xargs -r0 chmod 0640
 find "$data_dir" -type d -print0 | xargs -r0 chmod 0750
 chmod 755 /home/yunohost.app
-chmod 400 "$install_dir/config.local.php"
-chown "$app:$app" "$install_dir/config.local.php"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/config.local.php"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown "$app:$app" "$install_dir/config.local.php"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --last
+ynh_script_progression "Upgrade of $app completed"
