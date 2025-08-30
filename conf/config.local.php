@@ -66,7 +66,7 @@ const DB_FILE = '__DATA_DIR__/db.sqlite';
  *
  * const WWW_URL = 'https://dav.website.example/';
  */
-#const WWW_URL = 'http://karadav.localhost/';
+const WWW_URL = 'https://__DOMAIN____PATH__/';
 
 /**
  * WOPI client discovery URL
