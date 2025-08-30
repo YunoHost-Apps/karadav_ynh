@@ -31,10 +31,6 @@ ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
 # Backup the logrotate configuration
 ynh_backup "/etc/logrotate.d/$app"
 
-# Backup the Fail2Ban config
-#ynh_backup "/etc/fail2ban/jail.d/$app.conf"
-#ynh_backup "/etc/fail2ban/filter.d/$app.conf"
-
 #=================================================
 # BACKUP VARIOUS FILES
 #=================================================

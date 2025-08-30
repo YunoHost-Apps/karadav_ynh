@@ -6,18 +6,8 @@ source /usr/share/yunohost/helpers
 ynh_app_setting_set_default --key=php_upload_max_filesize --value=__UPLOAD_MAX_FILESIZE__
 
 #=================================================
-# ENSURE DOWNWARD COMPATIBILITY
-#=================================================
-#ynh_script_progression "Ensuring downward compatibility..."
-
-# nothing for now
-
-#=================================================
-# "REBUILD" THE APP (DEPLOY NEW SOURCES)
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-
 ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from manifest.toml
@@ -36,10 +26,6 @@ yunohost service add "$app" --description="KaraDAV, WebDAV server" --log="/var/l
 
 ynh_config_add_logrotate
 
-#ynh_config_add_fail2ban --logpath="/var/log/nginx/${domain}-error.log" --failregex="Regex to match into the log for a failed login"
-
-#=================================================
-# RECONFIGURE THE APP (UPDATE CONF, APPLY MIGRATIONS...)
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
