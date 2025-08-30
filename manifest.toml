@@ -37,7 +37,7 @@ ram.runtime = "50M"
 
     [install.path]
     type = "path"
-    default = "/karadav"
+    default = "/dav"
 
 [resources]
 
