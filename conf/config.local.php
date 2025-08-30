@@ -32,10 +32,33 @@ const DEFAULT_TRASHBIN_DELAY = 60*60*24*30; // 30 days
 const STORAGE_PATH = '__DATA_DIR__/%s';
 
 /**
+ * Path to a directory containing the thumbnails of images
+ *
+ * Set to NULL to disable thumbnails completely.
+ */
+const THUMBNAIL_CACHE_PATH = __DIR__ . '__DATA_DIR__/.thumbnails';
+
+/**
  * SQLite3 database file
  * This is where the users, app sessions and stuff will be stored
  */
 const DB_FILE = '__INSTALL_DIR__/db.sqlite';
+
+/**
+ * SQLite3 journaling mode
+ * Default: TRUNCATE (slower)
+ * Recommended: WAL (faster, but read below)
+ *
+ * If your database file is on a local disk, you will get better performance by using
+ * 'WAL' journaling instead. But it is not enabled by default as it may
+ * lead to database corruption on some network storage (eg. old NFS).
+ *
+ * @see https://www.sqlite.org/pragma.html#pragma_journal_mode
+ * @see https://www.sqlite.org/wal.html
+ * @see https://stackoverflow.com/questions/52378361/which-nfs-implementation-is-safe-for-sqlite-database-accessed-by-multiple-proces
+
+ */
+const DB_JOURNAL_MODE = 'WAL';
 
 /**
  * WWW_URL is the complete URL of the root of this server
@@ -73,23 +96,6 @@ const LOG_FILE = "/var/log/__APP__/__APP__.log";
 const ENABLE_XSENDFILE = false;
 
 /**
- * Set to TRUE if you have a slow filesystem (eg. NFS/BindFS)
- *
- * This will disable directory sizes and directory last modification date
- * (all directories will appear as 0-bytes, and the modification date might
- * not be accurate). Not a huge impact, but it can appear weird to the user.
- *
- * Details: to find out the size taken by a directory, we must do the sum
- * of all files and sub-directories, which might be slow if you have lots
- * of files. Same for directory modification date, we need to find out the
- * last modification of each file in that directory.
- *
- * Note that this will not disable slow operations used for quotas, as it
- * would effectively disable quotas. You must disable each user quota.
- */
-const DISABLE_SLOW_OPERATIONS = false;
-
-/**
  * External authentication callback
  *
  * Use this to authenticate a user with a third-party service.
@@ -116,8 +122,6 @@ const AUTH_CALLBACK = null;
  * To use a LDAP server for login, fill those details.
  * All LDAP constants MUST be filled, if any constant is NULL, then LDAP support is disabled.
  *
- *
- * All users logging in will be created locally and have the default quota.
  * All users signing in with success, who don't have an existing account,
  * will be created locally and have the default quota.
  *
