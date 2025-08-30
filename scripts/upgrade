@@ -11,7 +11,7 @@ ynh_app_setting_set_default --key=php_upload_max_filesize --value=__UPLOAD_MAX_F
 ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from manifest.toml
-ynh_setup_source --dest_dir="$install_dir" --keep=="db.sqlite"
+ynh_setup_source --dest_dir="$install_dir" --keep=="db.sqlite config.local.php"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
@@ -22,30 +22,9 @@ ynh_config_add_phpfpm
 
 ynh_config_add_nginx
 
-yunohost service add "$app" --description="KaraDAV, WebDAV server" --log="/var/log/$app/$app.log"
+yunohost service add "$app" --description="WebDAV server" --log="/var/log/$app/$app.log"
 
 ynh_config_add_logrotate
-
-#=================================================
-# UPDATE A CONFIG FILE
-#=================================================
-ynh_script_progression "Updating the app configuration file..."
-
-ynh_config_add --template="config.local.php" --destination="$install_dir/config.local.php"
-
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Fix app ownerships & permissions
-# borrowed here https://github.com/YunoHost-Apps/nextcloud_ynh/blob/master/scripts/install#L223
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:www-data" "$install_dir"
-chown -R "$app:" "$data_dir"
-find "$data_dir" -type f -print0 | xargs -r0 chmod 0640
-find "$data_dir" -type d -print0 | xargs -r0 chmod 0750
-chmod 755 /home/yunohost.app
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/config.local.php"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown "$app:$app" "$install_dir/config.local.php"
 
 #=================================================
 # END OF SCRIPT
