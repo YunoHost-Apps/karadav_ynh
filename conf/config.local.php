@@ -34,13 +34,13 @@ const STORAGE_PATH = '__DATA_DIR__/%s';
  *
  * Set to NULL to disable thumbnails completely.
  */
-const THUMBNAIL_CACHE_PATH = __DIR__ . '__DATA_DIR__/.thumbnails';
+const THUMBNAIL_CACHE_PATH = '__DATA_DIR__/.thumbnails';
 
 /**
  * SQLite3 database file
  * This is where the users, app sessions and stuff will be stored
  */
-const DB_FILE = __DIR__ . '__DATA_DIR__/db.sqlite';
+const DB_FILE = '__DATA_DIR__/db.sqlite';
 
 /**
  * SQLite3 journaling mode
@@ -82,7 +82,7 @@ const WOPI_DISCOVERY_URL = null;
 const ACCESS_CONTROL_ALL = false;
 
 /**
- * Path to a log file (eg. __DIR__ . '/debug.log')
+ * Path to a log file (eg. '/debug.log')
  * This will log all HTTP requests and responses received by the server
  */
 const LOG_FILE = null;
