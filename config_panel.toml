@@ -1,13 +1,3 @@
-
-## Config panel are available from webadmin > Apps > YOUR_APP > Config Panel Button
-## Those panels let user configure some params on their apps using a friendly interface,
-## and remove the need to manually edit files from the command line.
-
-## -----------------------------------------------------------------------------
-## IMPORTANT: In accordance with YunoHost's spirit, please keep things simple and 
-## do not overwhelm the admin with tons of misunderstandable or advanced settings.
-## -----------------------------------------------------------------------------
-
 version = "1.0"
 
 [main]
