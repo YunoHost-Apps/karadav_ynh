@@ -37,11 +37,7 @@ ram.runtime = "50M"
 
     [install.path]
     type = "path"
-    default = "/dav"
-
-    [install.init_main_permission]
-    type = "group"
-    default = "visitors"
+    default = "/karadav"
 
 [resources]
 
@@ -61,6 +57,7 @@ ram.runtime = "50M"
 
     [resources.permissions]
     main.url = "/"
+    main.allowed = [ "visitors" ]
 
     [resources.apt]
     packages = "php8.4-sqlite3, php8.4-simplexml, php8.4-imagick"
