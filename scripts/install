@@ -38,8 +38,6 @@ ynh_config_add_phpfpm
 # Create a dedicated NGINX config using the conf/nginx.conf template
 ynh_config_add_nginx
 
-yunohost service add "$app" --description="WebDAV server" --log="/var/log/$app/$app.log"
-
 # Use logrotate to manage application logfile(s)
 ynh_config_add_logrotate
 
