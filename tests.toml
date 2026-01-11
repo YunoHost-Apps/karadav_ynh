@@ -5,4 +5,4 @@ test_format = 1.0
 [default]
 
 # the app doesn't make sense at all if its not public
-exclude = [ "install.private" ]
+exclude = [ "install.private", "install.subdir" ]
