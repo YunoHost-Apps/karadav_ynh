@@ -59,6 +59,22 @@ const DB_FILE = '__DATA_DIR__/db.sqlite';
 //const DB_JOURNAL_MODE = 'WAL';
 
 /**
+ * SQLite3 journaling mode
+ * Default: TRUNCATE (slower)
+ * Recommended: WAL (faster, but read below)
+ *
+ * If your database file is on a local disk, you will get better performance by using
+ * 'WAL' journaling instead. But it is not enabled by default as it may
+ * lead to database corruption on some network storage (eg. old NFS).
+ *
+ * @see https://www.sqlite.org/pragma.html#pragma_journal_mode
+ * @see https://www.sqlite.org/wal.html
+ * @see https://stackoverflow.com/questions/52378361/which-nfs-implementation-is-safe-for-sqlite-database-accessed-by-multiple-proces
+
+ */
+const DB_JOURNAL_MODE = 'WAL';
+
+/**
  * WWW_URL is the complete URL of the root of this server
  *
  * If you don't define it, KaraDAV will try to auto-detects it as well as it can.
