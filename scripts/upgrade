@@ -3,7 +3,8 @@
 source _common.sh
 source /usr/share/yunohost/helpers
 
-ynh_app_setting_set_default --key=php_upload_max_filesize --value=__UPLOAD_MAX_FILESIZE__
+ynh_app_setting_set_default --key=php_upload_max_filesize --value="1G"
+ynh_app_setting_set_default --key=php_post_max_size --value="1G"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
