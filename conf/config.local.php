@@ -141,8 +141,7 @@ const AUTH_CALLBACK = null;
  *
  * Example strings are taken from https://yunohost.org/en/packaging_sso_ldap_integration#ldap-integration
  */
-const LDAP_HOST = null;
-//const LDAP_HOST = '127.0.0.1';
+const LDAP_HOST = '127.0.0.1';
 
 /**
  * LDAP server port
@@ -162,22 +161,19 @@ const LDAP_SECURE = false;
  * This is used in bind. Use %s for user login string.
  * @var string
  */
-const LDAP_LOGIN = null;
-//const LDAP_LOGIN = 'uid=%s,ou=users,dc=yunohost,dc=org';
+const LDAP_LOGIN = 'uid=%s,ou=users,dc=yunohost,dc=org';
 
 /**
  * LDAP base DN
  * @var string
  */
-const LDAP_BASE = null;
-//const LDAP_BASE = 'dc=yunohost,dc=org';
+const LDAP_BASE = 'dc=yunohost,dc=org';
 
 /**
  * LDAP display name attribute
  * @var string
  */
-const LDAP_DISPLAY_NAME = null;
-//const LDAP_DISPLAY_NAME = 'displayname';
+const LDAP_DISPLAY_NAME = 'displayname';
 
 /**
  * LDAP Search filter
@@ -185,8 +181,7 @@ const LDAP_DISPLAY_NAME = null;
  * Use %s for the user login.
  * @var string
  */
-const LDAP_FIND_USER = null;
-//const LDAP_FIND_USER = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=karadav.main,ou=permission,dc=yunohost,dc=org))';
+const LDAP_FIND_USER = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=karadav.main,ou=permission,dc=yunohost,dc=org))';
 
 /**
  * LDAP admin filter
@@ -194,8 +189,7 @@ const LDAP_FIND_USER = null;
  * Use %s for the user login
  * @var string
  */
-const LDAP_FIND_IS_ADMIN = null;
-//const LDAP_FIND_IS_ADMIN = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=karadav.admin.main,ou=permission,dc=yunohost,dc=org))';
+const LDAP_FIND_IS_ADMIN = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=karadav.admin.main,ou=permission,dc=yunohost,dc=org))';
 
 /**
  * Show PHP errors details to users?
