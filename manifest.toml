@@ -60,4 +60,4 @@ ram.runtime = "50M"
     main.allowed = [ "visitors" ]
 
     [resources.apt]
-    packages = "php8.4-sqlite3, php8.4-simplexml, php8.4-imagick"
+    packages = "php8.4-sqlite3, php8.4-simplexml, php8.4-imagick, php8.4-ldap"
