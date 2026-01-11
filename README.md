@@ -19,7 +19,7 @@ WebDAV server compatible with ownCloud and NextCloud
 
 
 ## Screenshots
-![Screenshot of KaraDAV](./doc/screenshots/karadav_files.png)
+![Screenshot of KaraDAV](./doc/screenshots/screenshot.png)
 
 ## 📦 Developer info
 
