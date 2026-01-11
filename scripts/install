@@ -1,13 +1,8 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
-source _common.sh
 source /usr/share/yunohost/helpers
+
+ynh_app_setting_set --key=php_upload_max_filesize --value=__UPLOAD_MAX_FILESIZE__
 
 #=================================================
 # INITIALIZE AND STORE SETTINGS
@@ -18,71 +13,42 @@ upload_max_filesize="1G"
 post_max_size="1G"
 wopi_url="null"
 
-ynh_app_setting_set --app="$app" --key=secret_key --value="$secret_key"
-ynh_app_setting_set --app="$app" --key=upload_max_filesize --value="$upload_max_filesize"
-ynh_app_setting_set --app="$app" --key=post_max_size --value="$post_max_size"
-ynh_app_setting_set --app="$app" --key=wopi_url --value="$wopi_url"
+ynh_app_setting_set --key=secret_key --value="$secret_key"
+ynh_app_setting_set --key=upload_max_filesize --value="$upload_max_filesize"
+ynh_app_setting_set --key=post_max_size --value="$post_max_size"
+ynh_app_setting_set --key=wopi_url --value="$wopi_url"
 
-#=================================================
-# APP "BUILD" (DEPLOYING SOURCES)
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..." --weight=1
+ynh_script_progression "Setting up source files..."
 
 # Download, check integrity, uncompress and patch the source from manifest.toml
 ynh_setup_source --dest_dir="$install_dir"
 
-chown -R "$app:www-data" "$install_dir"
-
 #=================================================
 # SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
+ynh_script_progression "Adding system configurations related to $app..."
 
 # Create a PHP-FPM config (with conf/extra_php-fpm.conf being appended to it)
-ynh_add_fpm_config
+ynh_config_add_phpfpm
 
 # Create a dedicated NGINX config using the conf/nginx.conf template
-ynh_add_nginx_config
-
-yunohost service add "$app" --description="KaraDAV, WebDAV server" --log="/var/log/$app/$app.log"
+ynh_config_add_nginx
 
 # Use logrotate to manage application logfile(s)
-ynh_use_logrotate
+ynh_config_add_logrotate
 
-# Create a dedicated Fail2Ban config
-#ynh_add_fail2ban_config --logpath="/var/log/nginx/${domain}-error.log" --failregex="Regex to match into the log for a failed login"
-
-#=================================================
-# APP INITIAL CONFIGURATION
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding app configuration file..." --weight=1
+ynh_script_progression "Adding app configuration file..."
 
-ynh_add_config --template="config.local.php" --destination="$install_dir/config.local.php"
-
-chmod 400 "$install_dir/config.local.php"
-chown "$app:$app" "$install_dir/config.local.php"
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Fix app ownerships & permissions
-# borrowed here https://github.com/YunoHost-Apps/nextcloud_ynh/blob/master/scripts/install#L223
-chown -R "$app:www-data" "$install_dir"
-chown -R "$app:" "$data_dir"
-find "$data_dir" -type f -print0 | xargs -r0 chmod 0640
-find "$data_dir" -type d -print0 | xargs -r0 chmod 0750
-chmod 755 /home/yunohost.app
-chmod 400 "$install_dir/config.local.php"
-chown "$app:$app" "$install_dir/config.local.php"
+ynh_config_add --template="config.local.php" --destination="$install_dir/config.local.php"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
-ynh_script_progression --message="Installation of $app completed" --last
+
+ynh_script_progression "Installation of $app completed"

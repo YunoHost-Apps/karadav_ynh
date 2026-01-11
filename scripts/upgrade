@@ -1,76 +1,31 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
-#=================================================
-# STANDARD UPGRADE STEPS
-#=================================================
-# ENSURE DOWNWARD COMPATIBILITY
-#=================================================
-#ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
+ynh_app_setting_set_default --key=php_upload_max_filesize --value=__UPLOAD_MAX_FILESIZE__
 
-# nothing for now
-
-#=================================================
-# "REBUILD" THE APP (DEPLOY NEW SOURCES)
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-
-ynh_script_progression --message="Upgrading source files..." --weight=1
+ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from manifest.toml
-ynh_setup_source --dest_dir="$install_dir" --keep=="db.sqlite"
+ynh_setup_source --dest_dir="$install_dir" --keep="config.local.php"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+ynh_script_progression "Upgrading system configurations related to $app..."
 
-ynh_add_fpm_config
+ynh_config_add_phpfpm
 
-ynh_add_nginx_config
+ynh_config_add_nginx
 
-yunohost service add "$app" --description="KaraDAV, WebDAV server" --log="/var/log/$app/$app.log"
-
-ynh_use_logrotate --non-append
-
-#ynh_add_fail2ban_config --logpath="/var/log/nginx/${domain}-error.log" --failregex="Regex to match into the log for a failed login"
-
-#=================================================
-# RECONFIGURE THE APP (UPDATE CONF, APPLY MIGRATIONS...)
-#=================================================
-# UPDATE A CONFIG FILE
-#=================================================
-ynh_script_progression --message="Updating the app configuration file..." --weight=1
-
-ynh_add_config --template="config.local.php" --destination="$install_dir/config.local.php"
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Fix app ownerships & permissions
-# borrowed here https://github.com/YunoHost-Apps/nextcloud_ynh/blob/master/scripts/install#L223
-chown -R "$app:www-data" "$install_dir"
-chown -R "$app:" "$data_dir"
-find "$data_dir" -type f -print0 | xargs -r0 chmod 0640
-find "$data_dir" -type d -print0 | xargs -r0 chmod 0750
-chmod 755 /home/yunohost.app
-chmod 400 "$install_dir/config.local.php"
-chown "$app:$app" "$install_dir/config.local.php"
+ynh_config_add_logrotate
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --last
+ynh_script_progression "Upgrade of $app completed"

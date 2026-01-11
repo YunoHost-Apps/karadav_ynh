@@ -1,44 +1,25 @@
 #!/bin/bash
 
-## this script is only run if actual change to domain/path is detected, if you're here either $domain or $path changed
-## new location is available via $domain and $path (or $new_domain and $new_path variables if you want to be explicit)
-## old values are available via, you guessed it, $old_domain and $old_path
-
-#=================================================
-# GENERIC STARTING
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# STANDARD MODIFICATIONS
-#=================================================
 # MODIFY URL IN NGINX CONF
 #=================================================
-ynh_script_progression --message="Updating NGINX web server configuration..." --weight=1
+ynh_script_progression "Updating NGINX web server configuration..."
 
-ynh_change_url_nginx_config
+ynh_config_change_url_nginx
 
 #=================================================
 # SPECIFIC MODIFICATIONS
 #=================================================
-# MODIFY URL IN the KARADAV CONF
-#=================================================
-ynh_script_progression --message="Updating KaraDAV configuration..." --weight=1
+ynh_script_progression "Updating KaraDAV configuration..."
 
-# using 'ynh_replace_string' because 'ynh_write_var_in_file' doesn't work
-ynh_replace_string --match_string="const WWW_URL = 'https://.*/';" --replace_string="const WWW_URL = 'https://$domain$path/';" --target_file="$install_dir/config.local.php"
-ynh_store_file_checksum --file="$install_dir/config.local.php"
-
-#=================================================
-# GENERIC FINALISATION
-#=================================================
+# using 'ynh_replace' because 'ynh_write_var_in_file' doesn't work
+ynh_replace --match="const WWW_URL = 'https://.*/';" --replace="const WWW_URL = 'https://$domain$path/';" --file="$install_dir/config.local.php"
+ynh_store_file_checksum "$install_dir/config.local.php"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Change of URL completed for $app" --last
+ynh_script_progression "Change of URL completed for $app"
