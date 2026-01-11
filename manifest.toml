@@ -44,9 +44,9 @@ ram.runtime = "50M"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://github.com/kd2org/karadav/archive/refs/tags/0.6.1.tar.gz"
-        sha256 = "10a358e31f3970141bd4874b3cf19b76156784dbc19f72b8059c37eb9c3daf61"
         in_subdir = true
+        url = "https://github.com/kd2org/karadav/archive/refs/tags/0.7.0-beta1.tar.gz"
+        sha256 = "723a2c473c5831e955147c6b1d3b911ed91fdd27415cb25522095b24345635d6"
         autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]

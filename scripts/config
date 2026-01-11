@@ -1,9 +1,6 @@
 #!/bin/bash
 
-source _common.sh
 source /usr/share/yunohost/helpers
-
-#REMOVEME? ynh_abort_if_errors
 
 # import needed settings
 php_version=$(ynh_app_setting_get --key=php_version)
