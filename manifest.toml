@@ -7,7 +7,7 @@ name = "KaraDAV"
 description.en = "WebDAV server compatible with ownCloud and NextCloud"
 description.fr = "Server WebDAV compatible avec ownCloud et NextCloud"
 
-version = "0.6.1~ynh1"
+version = "0.7.1~ynh1"
 
 maintainers = [ "OniriCorpe" ]
 
@@ -19,7 +19,7 @@ code = "https://github.com/kd2org/karadav/"
 fund = "https://kd2.org/soutien"
 
 [integration]
-yunohost = ">= 12.0.9"
+yunohost = ">= 12.1.38"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
