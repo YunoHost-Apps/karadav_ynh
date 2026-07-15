@@ -8,15 +8,10 @@ ynh_app_setting_set --key=php_upload_max_filesize --value=__UPLOAD_MAX_FILESIZE_
 # INITIALIZE AND STORE SETTINGS
 #=================================================
 
-secret_key="$(ynh_string_random --length=30)"
-upload_max_filesize="1G"
-post_max_size="1G"
-wopi_url="null"
-
-ynh_app_setting_set --key=secret_key --value="$secret_key"
-ynh_app_setting_set --key=upload_max_filesize --value="$upload_max_filesize"
-ynh_app_setting_set --key=post_max_size --value="$post_max_size"
-ynh_app_setting_set --key=wopi_url --value="$wopi_url"
+ynh_app_setting_set_default --key=secret_key --value="$(ynh_string_random --length=30)"
+ynh_app_setting_set_default --key=upload_max_filesize --value="1G"
+ynh_app_setting_set_default --key=post_max_size --value="1G"
+ynh_app_setting_set_default --key=wopi_url --value="null"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -31,13 +26,9 @@ ynh_setup_source --dest_dir="$install_dir"
 #=================================================
 ynh_script_progression "Adding system configurations related to $app..."
 
-# Create a PHP-FPM config (with conf/extra_php-fpm.conf being appended to it)
 ynh_config_add_phpfpm
-
-# Create a dedicated NGINX config using the conf/nginx.conf template
 ynh_config_add_nginx
 
-# Use logrotate to manage application logfile(s)
 ynh_config_add_logrotate
 
 #=================================================
