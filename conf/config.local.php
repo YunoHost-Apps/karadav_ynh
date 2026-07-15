@@ -91,7 +91,7 @@ const DB_JOURNAL_MODE = 'WAL';
  * Default: will be automatically created using SERVER_NAME and REQUEST_URI
  * @var string
  */
-const WWW_URL = 'https://__DOMAIN____PATH__/';
+//const WWW_URL = 'https://__DOMAIN____PATH__/';
 
 /**
  * WOPI client discovery URL
