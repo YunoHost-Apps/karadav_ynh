@@ -109,12 +109,12 @@ const WOPI_DISCOVERY_URL = '__WOPI_URL__';
 //const ACCESS_CONTROL_ALL = false;
 
 /**
- * Path to a log file (eg. __DIR__ . '/debug.log')
+ * Path to a log file (eg. __ DIR__ . '/debug.log')
  * This will log all HTTP requests and responses received by the server
  * @var string|null
  * DEBUG
  */
-const LOG_FILE = __DIR__ . '/logs/http-error.log';
+const LOG_FILE = DATA_ROOT . '/http-error.log';
 
 /**
  * Set to TRUE if you have X-SendFile module installed and configured
@@ -272,7 +272,7 @@ const ERRORS_SHOW = true;
  *
  * @var string
  */
-const ERRORS_LOG = __DIR__ . '/data/php-error.log';
+const ERRORS_LOG = DATA_ROOT . '/php-error.log';
 
 /**
  * Send errors reports to this errbit/airbrake compatible API endpoint
