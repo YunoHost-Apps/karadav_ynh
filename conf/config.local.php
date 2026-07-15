@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * This is the configuration file for KaraDAV
+ *
+ * ⚠️ IMPORTANT WARNING: do NOT edit this config file by hand,
+ * else your modifications will be ERASED at each update of the KaraDAV package!
+ * Instead, use the config panel in your web admin interface:
+ * Applications ➡️ KaraDAV ➡️ Config panel ➡️ do your config edit ➡️ Save
+ * Most of the relevant settings are available in the config panel, if you're
+ * missing one, open an issue: https://github.com/YunoHost-Apps/karadav_ynh/issues
+ */
+
 namespace KaraDAV;
 
 /**
