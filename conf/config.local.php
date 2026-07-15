@@ -3,16 +3,9 @@
 namespace KaraDAV;
 
 /**
- * This is the configuration file for KaraDAV
- * *DO NOT* edit the config.dist.php, copy it to config.local.php
- * and edit it to suit your needs. Changing config.dist.php won't do
- * anything.
- *
- * If config.local.php does not exist, default values will be used.
- */
-
-/**
  * Default quota for new users (in MB)
+ * Default: 200 MB
+ * @var int
  */
 const DEFAULT_QUOTA = 200;
 
@@ -20,31 +13,49 @@ const DEFAULT_QUOTA = 200;
  * Default delay after which files should be deleted from the trashbin
  * (in seconds)
  * Set to zero (0) to disable the trashbin (files will be deleted directly)
+ * Default: 30 days
+ * @var int
  */
 const DEFAULT_TRASHBIN_DELAY = 60*60*24*30; // 30 days
 
 /**
- * Users file storage path
- * %s is replaced by the login name of the user
+ * Enable or disable thumbnail generation
+ * This might consume a lot of CPU and storage if you have a lot of images.
+ * Default: true
+ * @var bool
  */
-const STORAGE_PATH = '__DATA_DIR__/%s';
+const ENABLE_THUMBNAILS = true;
 
 /**
- * Path to a directory containing the thumbnails of images
- *
- * Set to NULL to disable thumbnails completely.
+ * Directory where all data will be stored
+ * Default: 'data' inside root of KaraDAV
+ * @var string
  */
-const THUMBNAIL_CACHE_PATH = '__DATA_DIR__/.thumbnails';
+const DATA_ROOT = '__DATA_DIR__';
+
+/**
+ * Users file storage path
+ * %s is replaced by the login name of the user
+ * @var string
+ */
+//const STORAGE_PATH = DATA_ROOT . '/%s';
+
+/**
+ * Path to a directory containing cache files (templates, thumbnails)
+ * @var string
+ */
+//const CACHE_PATH = DATA_ROOT . '/.cache';
 
 /**
  * SQLite3 database file
  * This is where the users, app sessions and stuff will be stored
+ * @var string
  */
-const DB_FILE = '__DATA_DIR__/db.sqlite';
+//const DB_FILE = DATA_ROOT . '/db.sqlite';
 
 /**
  * SQLite3 journaling mode
- * Default: TRUNCATE (slower)
+ * Default: TRUNCATE (slower, but safer)
  * Recommended: WAL (faster, but read below)
  *
  * If your database file is on a local disk, you will get better performance by using
@@ -54,23 +65,9 @@ const DB_FILE = '__DATA_DIR__/db.sqlite';
  * @see https://www.sqlite.org/pragma.html#pragma_journal_mode
  * @see https://www.sqlite.org/wal.html
  * @see https://stackoverflow.com/questions/52378361/which-nfs-implementation-is-safe-for-sqlite-database-accessed-by-multiple-proces
-
- */
-//const DB_JOURNAL_MODE = 'WAL';
-
-/**
- * SQLite3 journaling mode
- * Default: TRUNCATE (slower)
- * Recommended: WAL (faster, but read below)
  *
- * If your database file is on a local disk, you will get better performance by using
- * 'WAL' journaling instead. But it is not enabled by default as it may
- * lead to database corruption on some network storage (eg. old NFS).
- *
- * @see https://www.sqlite.org/pragma.html#pragma_journal_mode
- * @see https://www.sqlite.org/wal.html
- * @see https://stackoverflow.com/questions/52378361/which-nfs-implementation-is-safe-for-sqlite-database-accessed-by-multiple-proces
-
+ * Default: TRUNCATE (safe)
+ * @var string
  */
 const DB_JOURNAL_MODE = 'WAL';
 
@@ -80,7 +77,8 @@ const DB_JOURNAL_MODE = 'WAL';
  * If you don't define it, KaraDAV will try to auto-detects it as well as it can.
  * But you may have to assign something static instead if that fails, for example:
  *
- * const WWW_URL = 'https://dav.website.example/';
+ * Default: will be automatically created using SERVER_NAME and REQUEST_URI
+ * @var string
  */
 const WWW_URL = 'https://__DOMAIN____PATH__/';
 
@@ -88,26 +86,55 @@ const WWW_URL = 'https://__DOMAIN____PATH__/';
  * WOPI client discovery URL
  * eg. http://onlyoffice.domain.tld/hosting/discovery for OnlyOffice
  * If set to NULL, WOPI support is disabled
+ * @var string|null
  */
 const WOPI_DISCOVERY_URL = '__WOPI_URL__';
 
 /**
  * Set this to TRUE if you want 'Access-Control-Allow-Origin' header to be set to '*'
  * and allow remote JS clients to make WebDAV requests.
+ * @var bool
  */
-const ACCESS_CONTROL_ALL = false;
+//const ACCESS_CONTROL_ALL = false;
 
 /**
- * Path to a log file (eg. '/debug.log')
+ * Path to a log file (eg. __DIR__ . '/debug.log')
  * This will log all HTTP requests and responses received by the server
+ * @var string|null
+ * DEBUG
  */
-const LOG_FILE = null;
+const LOG_FILE = __DIR__ . '/logs/http-error.log';
 
 /**
  * Set to TRUE if you have X-SendFile module installed and configured
  * see https://tn123.org/mod_xsendfile/
+ * @var bool
  */
-const ENABLE_XSENDFILE = false;
+//const ENABLE_XSENDFILE = false;
+
+/**
+ * List of external apps that will be added to the menu
+ *
+ * See doc/APPS.md for details.
+ * Default: null
+ * @var array|null
+ */
+//const EXTERNAL_APPS = [
+//	'podcasts' => [
+//		'label' => 'Podcasts',
+//		'icon'  => 'https://opodsync.example.org/logo.svg',
+//		'url'   => 'https://opodsync.example.org/',
+//	],
+//];
+
+/**
+ * API key for passing session information to external apps
+ *
+ * See doc/APPS.md for details.
+ * Default: null
+ * @var string|null
+ */
+//const EXTERNAL_API_KEY = 'abcd';
 
 /**
  * External authentication callback
@@ -121,9 +148,9 @@ const ENABLE_XSENDFILE = false;
  * If the callback returned TRUE and the user does not exist in the database,
  * it will be created with the default quota.
  *
- * @var string|array
+ * Default: null
+ * @var string|array|null
  */
-const AUTH_CALLBACK = null;
 //const AUTH_CALLBACK = ['MyAuthClass', 'login'];
 //const AUTH_CALLBACK = 'KaraDAV\my_login';
 //function my_login(string $user, string $password) {
@@ -140,12 +167,15 @@ const AUTH_CALLBACK = null;
  * will be created locally and have the default quota.
  *
  * Example strings are taken from https://yunohost.org/en/packaging_sso_ldap_integration#ldap-integration
+ *
+ * Default: null
+ * @var string|null
  */
 const LDAP_HOST = '127.0.0.1';
 
 /**
  * LDAP server port
- * @var integer
+ * @var int
  */
 const LDAP_PORT = 389;
 
@@ -192,6 +222,18 @@ const LDAP_FIND_USER = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=ka
 const LDAP_FIND_IS_ADMIN = '(&(|(objectclass=posixAccount))(uid=%s)(permission=cn=karadav.admin.main,ou=permission,dc=yunohost,dc=org))';
 
 /**
+ * Block iOS apps
+ * This is enabled by default as they have been reported as not working,
+ * and I don't have an iOS device to make any test.
+ * To avoid any data loss, they are disabled.
+ * If you want to test iOS apps, set this to FALSE, and if you can, send us logs
+ * or patches!
+ * @var bool
+ * DEBUG
+ */
+const BLOCK_IOS_APPS = false;
+
+/**
  * Show PHP errors details to users?
  * If set to TRUE, full error messages and source code will be displayed to visitors.
  * If set to FALSE, just a generic "an error happened" message will be displayed.
@@ -200,6 +242,7 @@ const LDAP_FIND_IS_ADMIN = '(&(|(objectclass=posixAccount))(uid=%s)(permission=c
  * Default: TRUE
  *
  * @var bool
+ * DEBUG
  */
 const ERRORS_SHOW = true;
 
@@ -210,7 +253,7 @@ const ERRORS_SHOW = true;
  *
  * @var string|null
  */
-const ERRORS_EMAIL = null;
+//const ERRORS_EMAIL = null;
 
 /**
  * Log PHP errors in this file.
@@ -218,7 +261,7 @@ const ERRORS_EMAIL = null;
  *
  * @var string
  */
-const ERRORS_LOG = '/var/log/__APP__/__APP__.log';
+const ERRORS_LOG = __DIR__ . '/data/php-error.log';
 
 /**
  * Send errors reports to this errbit/airbrake compatible API endpoint
@@ -229,7 +272,7 @@ const ERRORS_LOG = '/var/log/__APP__/__APP__.log';
  * @see https://errbit.com/images/error_summary.png
  * @see https://airbrake.io/docs/api/#create-notice-v3
  */
-const ERRORS_REPORT_URL = null;
+//const ERRORS_REPORT_URL = null;
 
 /**
  * Randomly generated secret key
