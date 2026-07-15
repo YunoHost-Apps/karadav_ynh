@@ -7,7 +7,7 @@ name = "KaraDAV"
 description.en = "WebDAV server compatible with ownCloud and NextCloud"
 description.fr = "Server WebDAV compatible avec ownCloud et NextCloud"
 
-version = "0.7.1~ynh1"
+version = "0.7.0~ynh1"
 
 maintainers = [ "OniriCorpe" ]
 
@@ -45,8 +45,8 @@ ram.runtime = "80M"
 
         [resources.sources.main]
         in_subdir = true
-        url = "https://github.com/kd2org/karadav/archive/refs/tags/0.7.0-beta1.tar.gz"
-        sha256 = "723a2c473c5831e955147c6b1d3b911ed91fdd27415cb25522095b24345635d6"
+        url = "https://github.com/kd2org/karadav/archive/refs/tags/0.7.0-beta2.tar.gz"
+        sha256 = "0a9df429c457551044f3c7210f62500007f87dd84d583bbdcbc084c79e0eb9d1"
         autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
